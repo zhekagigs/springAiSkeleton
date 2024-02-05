@@ -1,0 +1,317 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "OpenAPI definition",
+    "version": "v0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Generated server url"
+    }
+  ],
+  "paths": {
+    "/ai/stuff": {
+      "get": {
+        "tags": [
+          "chat-controller"
+        ],
+        "operationId": "stuffing",
+        "parameters": [
+          {
+            "name": "message",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "Which athletes won the mixed doubles gold medal in curling at the 2022 Winter Olympics?"
+            }
+          },
+          {
+            "name": "stuffit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Completion"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ai/roles": {
+      "get": {
+        "tags": [
+          "chat-controller"
+        ],
+        "operationId": "roles",
+        "parameters": [
+          {
+            "name": "message",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "Tell me about three famous pirates from Golden Age of\nPiracy and what the did. Write at least a sentence for each pirate.\n"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "Hook"
+            }
+          },
+          {
+            "name": "voice",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "pirate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Generation"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ai/rag": {
+      "get": {
+        "tags": [
+          "chat-controller"
+        ],
+        "operationId": "rag",
+        "parameters": [
+          {
+            "name": "message",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "What bike is good for city commuting?"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Generation"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ai/prompt": {
+      "get": {
+        "tags": [
+          "chat-controller"
+        ],
+        "operationId": "completion",
+        "parameters": [
+          {
+            "name": "adjective",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "funny"
+            }
+          },
+          {
+            "name": "topic",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "cows"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Generation"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ai/output": {
+      "get": {
+        "tags": [
+          "chat-controller"
+        ],
+        "operationId": "output",
+        "parameters": [
+          {
+            "name": "actor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "Jeff Bridges"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "5"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActorsFilms"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ai/generate": {
+      "get": {
+        "tags": [
+          "chat-controller"
+        ],
+        "operationId": "generate",
+        "parameters": [
+          {
+            "name": "message",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "Tell me a joke"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Completion"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Completion": {
+        "type": "object",
+        "properties": {
+          "completion": {
+            "type": "string"
+          }
+        }
+      },
+      "AssistantMessage": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "string"
+          },
+          "properties": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object"
+            }
+          },
+          "messageType": {
+            "type": "string",
+            "enum": [
+              "USER",
+              "ASSISTANT",
+              "SYSTEM",
+              "FUNCTION"
+            ]
+          }
+        }
+      },
+      "ChatGenerationMetadata": {
+        "type": "object",
+        "properties": {
+          "finishReason": {
+            "type": "string"
+          },
+          "contentFilterMetadata": {
+            "type": "object"
+          }
+        }
+      },
+      "Generation": {
+        "type": "object",
+        "properties": {
+          "output": {
+            "$ref": "#/components/schemas/AssistantMessage"
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/ChatGenerationMetadata"
+          }
+        }
+      },
+      "ActorsFilms": {
+        "type": "object",
+        "properties": {
+          "actor": {
+            "type": "string"
+          },
+          "movies": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}
