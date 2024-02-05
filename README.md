@@ -1,5 +1,5 @@
 # springAiSkeleton
-REST service to work with LLMs - OpenAI, Ollama
+REST service on top of LLMs providers - OpenAI, Ollama
 <ul>
 <li>Grabs replies to user prompts.</li>
 <li>Gets a filmography of actor with limit num of films.</li>
